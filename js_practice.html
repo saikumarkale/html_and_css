@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="main_div">
+        <h1>iam the main div</h1>
+        <div id="second_div"> 
+            <p>hello im second div</p>
+            <div id="last_div">
+                <h1>hello im the last div</h1>
+                <h3>hello im the last div</h3>
+
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const min_divEle =document.getElementById("main_div")
+    console.log("min_divEle :",min_divEle);
+
+//second_div id will change the entire div content
+    const second_divEle =document.getElementById("second_div").innerText = "hello im second div element im being updated";
+    console.log("second_divEle :",second_divEle);
+
+
+
+    //changing div inside div can be done by concattination process.
+    //const last_divEle =document.getElementById("last_div").innerText
+    //console.log("last_divEle :",last_divEle);
+
+</script>
+</html>
