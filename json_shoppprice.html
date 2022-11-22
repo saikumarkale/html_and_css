@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Roboto&display=swap');
+
+        * {
+            font-family: 'Montserrat', sans-serif;
+        }
+        body{
+            background-color: rgb(236, 217, 145);
+        }
+
+
+        .items {
+            width: 210px;
+            height: 230px;
+            border-radius: 5px;
+            /*background-color: transparent;*/
+        }
+
+        /*.items:hover{
+            transform: translateY(5px);
+            box-shadow: inset 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
+            
+
+        }*/
+
+        #maindiv {
+            /*background-color: rgb(44, 37, 37);*/
+            /*display: flex;*/
+            /* flex-wrap: wrap; */
+            display: grid;
+            gap: 35px;
+
+            grid-template-columns: repeat(auto-fill, 250px);
+
+        }
+
+        #maindiv div {
+            /*object-fit: cover;*/
+            opacity: 0.85;
+            display: flex;
+            align-items: center;
+            border: 1px solid silver;
+            padding: 10px;
+            background-color: white;
+            flex-direction: column;
+            border-radius: 11px;
+            box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+            /* width: 300px;
+            height: 300px; */
+        }
+
+        #maindiv div:hover {
+            font-weight: 600;
+            
+
+            opacity: 1;
+            transform: translateY(-5px);
+            box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 1.5);
+        }
+
+        .background {
+
+            background-color: rgb(236, 217, 145);
+            
+            /*background: color(display-p3 1 0.08 0);*/
+            /*background: linear-gradient(
+              to right in var(--colorspace),
+              black, white
+              );*/
+
+        }
+        .text-background{
+            background-color: white;
+
+        }
+        
+    </style>
+</head>
+
+<body>
+    
+    <div class="background">
+        <h1>SHOP</h1>
+        
+        <div id="maindiv">
+        </div>
+    </div>
+
+</body>
+<script>
+    const contentUrl =
+        "https://fakestoreapi.com/products";
+
+
+    // Defining async function
+    async function getapi(url) {
+
+        // Storing response
+        const response = await fetch(url);
+
+        // Storing data in form of JSON
+        var data = await response.json();
+        console.log(data);
+        const container = document.createDocumentFragment();
+
+        //const divElement = document.createElement('div');
+        //divElement.className = "forData";
+        for (let i = 0; i < data.length; i++) {
+            const id = data[i].id;
+            const price = data[i].price;
+            const title = data[i].title;
+            const image = data[i].image;
+            const divElement = document.createElement('div');
+            divElement.innerHTML += `<img src="${image}" class="items">
+                                         <p >${title}</p>
+                                         <p >RS<b> ${price * 80}<b></p>`;
+            //adding data to container
+            container.append(divElement);
+        }
+        const mainDiv = document.getElementById("maindiv");
+        mainDiv.appendChild(container);
+    }
+    getapi(contentUrl);
+</script>
+
+</html>
