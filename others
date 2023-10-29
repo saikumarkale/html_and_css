@@ -1,0 +1,67 @@
+Sure, here's an example of how you might structure unit tests for success and failure scenarios when zipping files using the `archiver` library within a Node.js Fastify framework using Jest:
+
+Assuming you have a function `zipFiles` that zips files using `archiver`, here are test cases for success and failure scenarios:
+
+```javascript
+const archiver = require('archiver');
+const fs = require('fs');
+const zipFiles = require('./zipFiles'); // Your zipFiles function
+const Fastify = require('fastify');
+
+describe('File Zipping Test', () => {
+  let testArchive;
+
+  beforeAll(() => {
+    testArchive = archiver.create('zip', {}); // Create a test archive
+    // Other setup if required
+  });
+
+  it('should zip files successfully', async () => {
+    const filesToZip = ['file1.txt', 'file2.txt']; // Example file names to zip
+    const outputFilePath = 'output.zip'; // Example output file path
+
+    // Mock archiver's methods if needed
+    const appendSpy = jest.spyOn(testArchive, 'append').mockImplementation(() => {});
+    const finalizeSpy = jest.spyOn(testArchive, 'finalize').mockImplementation(() => {});
+
+    await zipFiles(testArchive, filesToZip, outputFilePath);
+
+    expect(appendSpy).toHaveBeenCalledTimes(filesToZip.length);
+    expect(finalizeSpy).toHaveBeenCalledTimes(1);
+
+    // Verify if the output file exists after zipping
+    expect(fs.existsSync(outputFilePath)).toBe(true);
+  });
+
+  it('should handle zipping failure', async () => {
+    const filesToZip = []; // Empty file list to simulate failure scenario
+    const outputFilePath = 'output.zip'; // Example output file path
+
+    // Mock archiver's methods if needed
+    const appendSpy = jest.spyOn(testArchive, 'append').mockImplementation(() => {
+      throw new Error('Failed to append file to archive');
+    });
+    const finalizeSpy = jest.spyOn(testArchive, 'finalize').mockImplementation(() => {});
+
+    // Here, you might expect the function to throw an error or handle the failure in a specific way
+    await expect(zipFiles(testArchive, filesToZip, outputFilePath)).rejects.toThrow('Failed to append file to archive');
+
+    // Verify if the output file does not exist after a failed attempt
+    expect(fs.existsSync(outputFilePath)).toBe(false);
+  });
+
+  afterAll(() => {
+    // Clean up: remove the generated zip file if needed
+    const outputFilePath = 'output.zip'; // Example output file path
+    if (fs.existsSync(outputFilePath)) {
+      fs.unlinkSync(outputFilePath);
+    }
+  });
+});
+```
+
+In these test cases, the first one asserts that zipping files should complete successfully by checking if the expected methods from `archiver` were called and if the output file was created.
+
+The second test case simulates a failure scenario (empty file list) and checks if the function properly handles this situation, in this case, throwing an error, and ensuring that no output file is generated in case of failure.
+
+Adjust this code according to your specific implementation and error-handling strategies. These tests help ensure that your zipping function behaves as expected in both success and failure scenarios.
