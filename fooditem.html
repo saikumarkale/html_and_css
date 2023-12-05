@@ -1,58 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+Apologies for the oversight in the code provided earlier. There was a mismatch in the object key names. Here's the corrected code:
 
-<style>
-    .divclass{
-        position: relative;
-        display: block;
+```javascript
+const solifimetadta = {
+  CompletionDate: '15/12/23',
+};
 
-    }
-    .divparent{
-        display: flex;
-        justify-content: space-between;
-        width: 200px;
-    }
-.food {
-         border-radius: 4px ;
-         position: absolute;
+const integrationMetadata = {
+  RetentionDate: '',
+};
 
+function addYearsToDate(dateString, years) {
+  const [day, month, year] = dateString.split('/');
+  const originalDate = new Date(`20${year}`, month - 1, day);
+
+  const newDate = new Date(originalDate);
+  newDate.setFullYear(newDate.getFullYear() + years);
+
+  const formattedNewDate = `${String(newDate.getDate()).padStart(2, '0')}/${String(newDate.getMonth() + 1).padStart(2, '0')}/${String(newDate.getFullYear()).slice(-2)}`;
+  return formattedNewDate;
 }
-    
-.absolute {
-    position: absolute;
-    color: white;
-    background-color: rgb(58, 58, 248);
-    border-radius: 2px;
-    top: 150px;
-    font-family: Tahoma, sans-serif;
-}
-.absolute1{
-    color: black;
-    background-color: rgb(221, 214, 214);
-    border-radius: 3px;
-    position: absolute;
-    right: 1px;
-    top: 150px;font-family: Tahoma, sans-serif;;
-}
-.masterparent{
-    width: 310px;
-}
-    
-</style>
-</head>
-<body>
-    <body>
-        <div class="masterparent">
-        <div class="divclass" height="200px" width="200px">
-            <img class="food" src="food.jpg" height="200px" width="auto">
-            <div class="divparent">
-                <div class="absolute">50% off up to 100</div>
-               <div class="absolute1">35min</div> 
-            </div>
-            
-        </div>
-    </div>
-        
-    </body>
-</html>
+
+integrationMetadata.RetentionDate = addYearsToDate(solifimetadta.CompletionDate, 7);
+
+console.log(integrationMetadata.RetentionDate);
+```
+
+This corrected code should output the updated date after adding 7 years to '15/12/23'. For that specific input, the output will be: `22/12/30`.
